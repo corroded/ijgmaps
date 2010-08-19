@@ -30,7 +30,7 @@ $(document).ready(function() {
                 mapTypeControlOptions: { style: google.maps.MapTypeControlStyle.DROPDOWN_MENU },
                 navigationControl: options.navControl,
                 navigationControlOptions: { style: google.maps.NavigationControlStyle.SMALL },
-                mapTypeId: google.maps.MapTypeId.SATELLITE
+                mapTypeId: google.maps.MapTypeId.ROADMAP
             }
             this.map = new google.maps.Map($(this)[0], settings);
             return this;
