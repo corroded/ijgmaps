@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  
   $.fn.gmap3 = function (options) {
         var defaults = {
             lat: 0.0,
@@ -13,6 +14,7 @@ $(document).ready(function() {
             this.each(function () { $(this).gmap(options) });
             return this;
         }
+        
 
         // global var to access the google map object
         this.map;
@@ -33,9 +35,10 @@ $(document).ready(function() {
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             }
             this.map = new google.maps.Map($(this)[0], settings);
+            
             return this;
         };
-
+        
         // set map type
         this.setTypeRoadMap = function () {
             this.map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
@@ -73,9 +76,14 @@ $(document).ready(function() {
         // add a marker to the map by lat / lng
         this.addMarkerByLatLng = function (lat, lng, title, html) {
             var latlng = new google.maps.LatLng(lat, lng);
-            return _addMarkerByLatLng(latlng, title, html, this.map, this.overlays);
+            var myMarker = _addMarkerByLatLng(latlng, title, html, this.map, this.overlays);
         }
-
+        
+        // remove a marker by name
+        this.removeMarker = function (markerName) {
+          this.overlays = _removeMarker(this.overlays, markerName);
+        }
+        
         // add a path to the map
         this.addPath = function (data, opts) {
             var defOpts = {
@@ -209,6 +217,7 @@ $(document).ready(function() {
                 map: theMap,
                 title: title
             });
+            
             overlays.push(marker);
 
             if (html != undefined) {
@@ -218,7 +227,23 @@ $(document).ready(function() {
                     infowindow.open(theMap, marker);
                 });
             }
+            
             return this;
+        }
+        
+        function _removeMarker(markerArray, markerName) {
+          var removeMe;
+          $.each( markerArray, function (){
+            if( this.getTitle() == markerName ) {
+              this.setVisible(false);
+              removeMe = this;
+            }
+          })
+          
+          return $.grep(markerArray, function(val) { 
+            return val != removeMe; 
+          });
+
         }
 
         // Adds a polygon to the map
