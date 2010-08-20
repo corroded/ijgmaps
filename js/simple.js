@@ -4,4 +4,12 @@ $(document).ready(function() {
     lng: -79.727783,
     zoom: 7
   });
+  
+  map.addMarkerByLatLng(25.928407, -79.727783, "test");
+  map.addMarkerByLatLng(25.928407, -80.727783, "pew");
+  
+  $('#clickme').click( function() {
+    map.removeMarker("test");
+  })
+  
 });
