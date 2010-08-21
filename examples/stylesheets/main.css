@@ -1,6 +1,32 @@
 
 body {
   font-family: Arial, sans-serif;
+  font-size: 13px;
+}
+
+a, a:visited {
+  color: #00B1F5;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #F95E63;
+  border-bottom: 1px dotted #F95E63;
+}
+
+h2 {
+  color: #F95E63;
+  font-weight: bold;
+  font-size: 2em;
+  border-bottom: 2px solid #F95E63;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+h4 {
+  margin-top: 10px;
+  color: #FBB200;
+  font-weight: bold;
 }
 
 #container {
@@ -24,8 +50,14 @@ ul {
   list-style-position: inside;
 }
 
+#examples {
+  border-top: 1px dotted #999;
+}
+
 #examples li {
   margin: 20px 0;
+  padding-bottom: 20px;
+  border-bottom: 1px dotted #999;
 }
 
 .action-link {
@@ -33,5 +65,16 @@ ul {
   background: #B5D29C;
   border: 1px solid #999;
   text-decoration: none;
-  color: #fff;
+  color: #fff !important;
+}
+
+.action-link:hover {
+  color: #F95E63 !important;
+  border: 1px dotted #F95E63;
+}
+
+.code {
+  background: #FEE6B5;
+  padding: 10px;
+  margin: 10px 0;
 }
