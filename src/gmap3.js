@@ -76,7 +76,8 @@ $(document).ready(function() {
         // add a marker to the map by lat / lng
         this.addMarkerByLatLng = function (lat, lng, title, html) {
             var latlng = new google.maps.LatLng(lat, lng);
-            var myMarker = _addMarkerByLatLng(latlng, title, html, this.map, this.overlays);
+            this.setCenter(lat, lng);
+            return _addMarkerByLatLng(latlng, title, html, this.map, this.overlays);
         }
         
         // remove a marker by name
@@ -206,8 +207,6 @@ $(document).ready(function() {
             });
         }
 
-
-
         /* ------------- Private functions ------------------ */
 
         // Adds a marker to the map
@@ -231,8 +230,11 @@ $(document).ready(function() {
             return this;
         }
         
+        // Removes a marker from the map
+        // deletes it from overlays array
         function _removeMarker(markerArray, markerName) {
           var removeMe;
+          
           $.each( markerArray, function (){
             if( this.getTitle() == markerName ) {
               this.setVisible(false);
