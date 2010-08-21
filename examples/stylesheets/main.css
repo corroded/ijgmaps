@@ -1,5 +1,37 @@
 
-#map {
+body {
+  font-family: Arial, sans-serif;
+}
+
+#container {
+  width: 950px;
+  margin: 0 auto;
+}
+
+.google-map {
   width: 800px;
   height: 400px;
+  margin: 10px 0;
+}
+
+ul {
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+#example-list li {
+  list-style-type: disc;
+  list-style-position: inside;
+}
+
+#examples li {
+  margin: 20px 0;
+}
+
+.action-link {
+  padding: 5px 10px;
+  background: #B5D29C;
+  border: 1px solid #999;
+  text-decoration: none;
+  color: #fff;
 }
