@@ -6,3 +6,5 @@ http://blog.bobcravens.com/2010/06/06/AGoogleMapsVersion3JQueryPlugin.aspx
 Planned features:
  - Convert markers into a separate object so you can add/delete them at will
  - convenience methods for adding/deleting markers
+
+See index.html for samples and sample code
