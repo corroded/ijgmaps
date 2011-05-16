@@ -1,5 +1,4 @@
 $(document).ready(function() {
-  
   $.fn.gmap3 = function (options) {
         var defaults = {
             lat: 0.0,
@@ -14,7 +13,6 @@ $(document).ready(function() {
             this.each(function () { $(this).gmap(options) });
             return this;
         }
-        
 
         // global var to access the google map object
         this.map;
@@ -28,17 +26,17 @@ $(document).ready(function() {
             var settings = {
                 zoom: options.zoom,
                 center: latlng,
-                mapTypeControl: true,
-                mapTypeControlOptions: { style: google.maps.MapTypeControlStyle.DROPDOWN_MENU },
+                mapTypeControl: options.mapControl,
+                mapTypeControlOptions: { style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+                                         position: google.maps.ControlPosition.TOP_LEFT},
                 navigationControl: options.navControl,
                 navigationControlOptions: { style: google.maps.NavigationControlStyle.SMALL },
-                mapTypeId: google.maps.MapTypeId.ROADMAP
+                mapTypeId: google.maps.MapTypeId.HYBRID
             }
             this.map = new google.maps.Map($(this)[0], settings);
-            
             return this;
         };
-        
+
         // set map type
         this.setTypeRoadMap = function () {
             this.map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
@@ -74,17 +72,13 @@ $(document).ready(function() {
             });
         }
         // add a marker to the map by lat / lng
-        this.addMarkerByLatLng = function (lat, lng, title, html) {
+        this.addMarkerByLatLng = function (lat, lng, title, type, html) {
             var latlng = new google.maps.LatLng(lat, lng);
-            this.setCenter(lat, lng);
-            return _addMarkerByLatLng(latlng, title, html, this.map, this.overlays);
+            this.map.setCenter(latlng);
+            this.map.setZoom(10);
+            return _addMarkerByLatLng(latlng, title, type, html, this.map, this.overlays);
         }
-        
-        // remove a marker by name
-        this.removeMarker = function (markerName) {
-          this.overlays = _removeMarker(this.overlays, markerName);
-        }
-        
+
         // add a path to the map
         this.addPath = function (data, opts) {
             var defOpts = {
@@ -120,15 +114,23 @@ $(document).ready(function() {
         };
 
         // clear the overlays
-        this.clear = function () {
+        this.clear = function (type) {
             if (this.overlays != undefined) {
                 for (var i = 0; i < this.overlays.length; i++) {
-                    this.overlays[i].setMap(null);
+                    var overlayObj = this.overlays[i];
+                    if(type != undefined) {
+                      if( overlayObj.get("type") == type ) {
+                        overlayObj.setMap(null);
+                      }
+                    } else {
+                      overlayObj.setMap(null);
+                    }
+                    
                 }
                 this.overlays = [];
             }
         }
-
+        
         this.toggleDebug = function () {
 
             // Create new control to display latlng and coordinates under mouse.
@@ -207,16 +209,18 @@ $(document).ready(function() {
             });
         }
 
+
+
         /* ------------- Private functions ------------------ */
 
         // Adds a marker to the map
-        function _addMarkerByLatLng(latlng, title, html, theMap, overlays) {
+        function _addMarkerByLatLng(latlng, title, type, html, theMap, overlays) {
             var marker = new google.maps.Marker({
                 position: latlng,
                 map: theMap,
                 title: title
             });
-            
+            marker.set("type", type);
             overlays.push(marker);
 
             if (html != undefined) {
@@ -226,26 +230,7 @@ $(document).ready(function() {
                     infowindow.open(theMap, marker);
                 });
             }
-            
             return this;
-        }
-        
-        // Removes a marker from the map
-        // deletes it from overlays array
-        function _removeMarker(markerArray, markerName) {
-          var removeMe;
-          
-          $.each( markerArray, function (){
-            if( this.getTitle() == markerName ) {
-              this.setVisible(false);
-              removeMe = this;
-            }
-          })
-          
-          return $.grep(markerArray, function(val) { 
-            return val != removeMe; 
-          });
-
         }
 
         // Adds a polygon to the map
